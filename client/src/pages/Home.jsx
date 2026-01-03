@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import Navbar from "../components/Navbar";
+import UserCard from "../components/UserCard";
+
 
 function Home() {
   const [similarMatches, setSimilarMatches] = useState([]);
@@ -49,41 +51,13 @@ function Home() {
 
 
 
-  // 🧩 Reusable card component
-  const Card = ({ user, tag }) => (
-    <div className="bg-[#1a152b]/80 rounded-xl p-5 shadow-lg shadow-[#a855f7]/10 border border-[#2a2540] hover:shadow-[#ec4899]/20 transition">
-      <h3 className="text-lg font-semibold text-[#a855f7]">{user.name}</h3>
-      <p className="text-sm text-gray-400 mt-1">{user.bio || "No bio provided"}</p>
-
-      <div className="flex flex-wrap gap-2 mt-3">
-        {user.skills?.map((s, i) => (
-          <span
-            key={i}
-            className="text-xs px-3 py-1 rounded-full bg-[#a855f7]/20 text-[#ec4899]"
-          >
-            {s}
-          </span>
-        ))}
-      </div>
-
-      {user.sharedSkills && user.sharedSkills.length > 0 && (
-        <p className="text-xs text-[#a855f7] mt-3">
-          Shared skills: {user.sharedSkills.join(", ")}
-        </p>
-      )}
-
-      <button className="mt-4 w-full bg-linear-to-r from-[#a855f7] to-[#ec4899] text-white py-1.5 rounded-lg text-sm font-semibold hover:opacity-90 transition">
-        Connect
-      </button>
-    </div>
-  );
 
   return (
     <div className="min-h-screen bg-linear-to-b from-[#0d0b1a] via-[#140c23] to-[#0d0b1a] text-[#f1f0f5]">
       <Navbar currentUser={currentUser} onSearch={() => {}} />
 
       <main className="px-10 py-10 space-y-12">
-        {/* 🟣 Similar Skills */}
+        
         <section>
           <h2 className="text-2xl font-semibold mb-2 bg-linear-to-r from-[#a855f7] to-[#ec4899] text-transparent bg-clip-text">
             Similar Skills
@@ -97,13 +71,13 @@ function Home() {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {similarMatches.map((user) => (
-                <Card key={user.id} user={user} tag="similar" />
+                <UserCard key={user.id} user={user} />
               ))}
             </div>
           )}
         </section>
 
-        {/* 💗 Complementary Skills */}
+        
         <section>
           <h2 className="text-2xl font-semibold mb-2 bg-linear-to-r from-[#ec4899] to-[#a855f7] text-transparent bg-clip-text">
             Complementary Skills
@@ -117,8 +91,9 @@ function Home() {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {complementaryMatches.map((user) => (
-                <Card key={user.id} user={user} tag="complementary" />
+                <UserCard key={user.id} user={user} />
               ))}
+
             </div>
           )}
         </section>
